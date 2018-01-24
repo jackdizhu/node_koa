@@ -4,7 +4,7 @@ const cors = require('koa-cors')
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
+const bodyparser = require('koa-bodyparser') // form-data 不支持  x-www-form-urlencoded 改为
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
@@ -16,7 +16,7 @@ onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes:['json', 'form', 'text', 'multipart']
 }))
 app.use(json())
 app.use(cors()) // api 服务器 允许跨域
@@ -28,12 +28,12 @@ app.use(views(__dirname + '/views', {
 }))
 
 // logger
-app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+// app.use(async (ctx, next) => {
+//   const start = new Date()
+//   await next()
+//   const ms = new Date() - start
+//   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+// })
 
 // routes
 
@@ -56,13 +56,12 @@ app.use(async (ctx, next) => {
     
     if (ctx.body) {
       ctx.body.path = ctx.path
-      ctx.body.params = ctx.params
       ctx.body.query = ctx.query
       ctx.body.body = ctx.request.body
       ctx.body._req = ctx.request
       ctx.body._res = ctx.response
       ctx.body.apiV = '1.0'
-      console.log(ctx.path)
+      // console.log(ctx.path)
     }
   }
 })
