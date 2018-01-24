@@ -1,6 +1,12 @@
 const Koa = require('koa')
 const app = new Koa()
 const cors = require('koa-cors')
+const koaJwt = require('koa-jwt')
+const jwt = require('jsonwebtoken')
+const util = require('util')
+const verify = util.promisify(jwt.verify) // 解密
+const secret = 'lqwiuerpowjflaskdjffkhgoiwurpoqdjlsakjflsdkf' // 加盐 key
+
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
@@ -14,6 +20,10 @@ const api = require('./routes/api')
 // error handler
 onerror(app)
 
+// token 验证 js req header authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlci5uYW1lIiwiaWF0IjoxNTE2Nzg3MDU0LCJleHAiOjE1MTY3OTA2NTR9.gEIBKKqhEQ_slW0BmSK-3pnaXxYFaOSOJonLb3Xc6n0"
+// app.use(koaJwt({secret}).unless({
+//     // path: [/^\/api\/login/] //数组中的路径不需要通过jwt验证
+// }))
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text', 'multipart']
