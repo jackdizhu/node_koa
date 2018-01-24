@@ -36,12 +36,44 @@ app.use(async (ctx, next) => {
 })
 
 // routes
+
+// 针对 /api 的中间件
+app.use(async (ctx, next) => {
+  await next()
+  if (/^\/api\//.test(ctx.path)) {
+    // 处理 !==200 错误
+    if (ctx.response.status !== 200) {
+      ctx.body = {
+        obj: {
+          code: '0',
+          msg: 'ok'
+        }    
+      }
+    }
+    // let {...obj} = ctx.body
+    // ctx.body = {}
+    // ctx.body.obj = obj
+    
+    if (ctx.body) {
+      ctx.body.path = ctx.path
+      ctx.body.params = ctx.params
+      ctx.body.query = ctx.query
+      ctx.body.body = ctx.request.body
+      ctx.body._req = ctx.request
+      ctx.body._res = ctx.response
+      ctx.body.apiV = '1.0'
+      console.log(ctx.path)
+    }
+  }
+})
+
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
+  ctx.body = err
   console.error('server error', err, ctx)
 });
 

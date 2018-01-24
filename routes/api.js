@@ -1,16 +1,21 @@
 const router = require('koa-router')()
 
+router.prefix('/api')
+
 router.get('/', async (ctx, next) => {
   ctx.body = {
-  	code: '1',
-  	msg: 'ok'
+  	obj: {
+  		code: '1',
+	  	msg: 'ok'
+  	}
   };
 })
-
 router.get('/test', async (ctx, next) => {
-  this.body = {
-  	code: '1',
-  	msg: 'test'
+  ctx.body = {
+  	obj: {
+  		code: '1',
+	  	msg: 'test'
+  	}
   };
 })
 
