@@ -57,13 +57,10 @@ app.use(async (ctx, next) => {
         obj: {
           code: '0',
           msg: 'ok'
-        }    
+        }
       }
     }
-    // let {...obj} = ctx.body
-    // ctx.body = {}
-    // ctx.body.obj = obj
-    
+
     if (ctx.body) {
       ctx.body.path = ctx.path
       ctx.body.query = ctx.query
@@ -71,7 +68,6 @@ app.use(async (ctx, next) => {
       ctx.body._req = ctx.request
       ctx.body._res = ctx.response
       ctx.body.apiV = '1.0'
-      // console.log(ctx.path)
     }
   }
 })
