@@ -1,3 +1,4 @@
+var log = require('./log');
 var nodemailer = require('nodemailer');
 var start = Date.now();
 
@@ -30,9 +31,16 @@ let sendMail = async (obj) => {
   mailOptions.html = html || mailOptions.html
   transporter.sendMail(mailOptions, function(error, info){
       if(error){
-          console.log(error, 'sendMail');
+        log({
+          obj: obj,
+          err: error,
+          retutn: false
+        })
       } else {
-        console.log('sendMail OK', 'sendMail');
+        log({
+          obj: obj,
+          retutn: true
+        })
       }
   });
 }

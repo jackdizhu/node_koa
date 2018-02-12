@@ -4,6 +4,7 @@ const Mock = require('mockjs')
 const jwt = require('jsonwebtoken')
 const util = require('util')
 const sendMail = require('../com/sendMail')
+var log = require('../com/log');
 const verify = util.promisify(jwt.verify) // 解密
 const secret = 'lqwiuerpowjflaskdjffkhgoiwurpoqdjlsakjflsdkf' // 加盐 key
 
@@ -18,6 +19,25 @@ let for_req_fn = (obj, _get, _post) => {
     }
   })
 }
+
+router.get('/log', async (ctx, next) => {
+
+  let _obj = {
+    obj: {
+      code: '1',
+      msg: 'ok',
+      _get: function (_get, _post) {
+        return _get
+      }
+    }
+  }
+
+  for_req_fn(_obj, ctx.query, ctx.request.body)
+  ctx.body = Mock.mock(_obj);
+
+  // 打印日志
+  log(ctx.body)
+})
 
 router.get('/sendMail', async (ctx, next) => {
 
