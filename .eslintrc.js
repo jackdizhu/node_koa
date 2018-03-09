@@ -8,5 +8,13 @@ module.exports = {
   },
   "plugins": [
     "html"
-  ]
+  ],
+  "rules": {
+    "camelcase": [
+      0,
+      {
+        "properties": "never"
+      }
+    ],
+  }
 };
