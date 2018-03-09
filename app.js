@@ -2,10 +2,13 @@ const Koa = require('koa')
 const app = new Koa()
 const cors = require('koa-cors')
 const koaJwt = require('koa-jwt')
-const jwt = require('jsonwebtoken')
-const util = require('util')
-const verify = util.promisify(jwt.verify) // 解密
-const secret = 'lqwiuerpowjflaskdjffkhgoiwurpoqdjlsakjflsdkf' // 加盐 key
+const path = require('path')
+// const jwt = require('jsonwebtoken')
+// const util = require('util')
+// 解密
+// const verify = util.promisify(jwt.verify)
+// 加盐 key
+const secret = 'lqwiuerpowjflaskdjffkhgoiwurpoqdjlsakjflsdkf'
 
 const views = require('koa-views')
 const json = require('koa-json')
@@ -25,19 +28,21 @@ global.log = log()
 onerror(app)
 
 // token 验证 js req header authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlci5uYW1lIiwiaWF0IjoxNTE2Nzg3MDU0LCJleHAiOjE1MTY3OTA2NTR9.gEIBKKqhEQ_slW0BmSK-3pnaXxYFaOSOJonLb3Xc6n0"
-// app.use(koaJwt({secret}).unless({
-//     // path: [/^\/api\/login/] //数组中的路径不需要通过jwt验证
-// }))
+app.use(koaJwt({secret}).unless({
+  // 数组中的路径不需要通过jwt验证
+  path: [/^\/api\/[a-zA-Z_]+/]
+}))
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text', 'multipart']
+  enableTypes: ['json', 'form', 'text', 'multipart']
 }))
 app.use(json())
-app.use(cors()) // api 服务器 允许跨域
+// api 服务器 允许跨域
+app.use(cors())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(path.resolve(__dirname, '') + '/public'))
 
-app.use(views(__dirname + '/views', {
+app.use(views(path.resolve(__dirname, '') + '/views', {
   extension: 'ejs'
 }))
 
@@ -84,6 +89,6 @@ app.use(api.routes(), api.allowedMethods())
 app.on('error', (err, ctx) => {
   ctx.body = err
   console.error('server error', err, ctx)
-});
+})
 
 module.exports = app
