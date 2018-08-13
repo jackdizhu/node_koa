@@ -5,6 +5,13 @@ npm install koa-generator -g koa 生成器
 koa -e
 koa2 -e
 
+* dev_cooking 爬虫获取数据
+
+```
+http://127.0.0.1:3000/cookingStyle/
+http://127.0.0.1:3000/cookingStyle/details
+```
+
   cors  配置 返回json 处理跨域问题 搭建简单api 服务器
 
   (JWT/JSON Web Token 安全验证)
