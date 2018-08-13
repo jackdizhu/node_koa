@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "debug": "^2.6.3",
     "ejs": "~2.3.3",
     "jsonwebtoken": "^8.1.1",
@@ -24,6 +25,8 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
     "mockjs": "^1.0.1-beta3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "util": "^0.10.3"
   },
   "devDependencies": {

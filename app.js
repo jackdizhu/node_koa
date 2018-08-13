@@ -15,6 +15,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const cookingStyle = require('./routes/cookingStyle')
 const api = require('./routes/api')
 
 // error handler
@@ -57,13 +58,13 @@ app.use(async (ctx, next) => {
         obj: {
           code: '0',
           msg: 'ok'
-        }    
+        }
       }
     }
     // let {...obj} = ctx.body
     // ctx.body = {}
     // ctx.body.obj = obj
-    
+
     if (ctx.body) {
       ctx.body.path = ctx.path
       ctx.body.query = ctx.query
@@ -79,6 +80,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
+app.use(cookingStyle.routes(), cookingStyle.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
