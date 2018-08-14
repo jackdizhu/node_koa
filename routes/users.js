@@ -1,4 +1,5 @@
 const router = require('koa-router')()
+const mongoose = require('mongoose')
 const userModel = require('../models/user')
 const userChildrenModel = require('../models/userChildren')
 
@@ -29,7 +30,7 @@ router.get('/add', async (ctx, next) => {
   let user = await userModel.insert({
     name: 'jackdizhu',
     password: 'password',
-    userChildren: userChildren._id
+    userChildren: mongoose.Types.ObjectId(userChildren._id)
   })
   ctx.body = {
     title: 'koa2 json',
@@ -39,7 +40,7 @@ router.get('/add', async (ctx, next) => {
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
-  let users = await userModel.find({name: 'jackdizhu'}).populate('userChildren')
+  let users = await userModel.find({ name: 'jackdizhu' }).populate('_userChildren').populate('_userChildrenList')
   ctx.body = {
     title: 'koa2 json',
     users: users

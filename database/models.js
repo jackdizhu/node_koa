@@ -3,10 +3,16 @@ const Schema = mongoose.Schema
 
 module.exports = {
   user: {
-    userChildren: {
+    _userChildren: {
       type: Schema.Types.ObjectId,
       ref: 'userChildren'
     },
+    _userChildrenList: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'userChildren'
+      }
+    ],
     name: {
       type: String,
       required: true
