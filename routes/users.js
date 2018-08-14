@@ -38,7 +38,7 @@ router.get('/add', async (ctx, next) => {
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
-  let users = await userModel.find({name: 'jackdizhu'})
+  let users = await userModel.find({name: 'jackdizhu'}).populate('userChildren')
   ctx.body = {
     title: 'koa2 json',
     users: users
