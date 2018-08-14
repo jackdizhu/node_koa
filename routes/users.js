@@ -24,14 +24,18 @@ router.get('/json', async (ctx, next) => {
 // 添加记录
 router.get('/add', async (ctx, next) => {
   let userChildren = await userChildrenModel.insert({
-    name: 'jackdizhu',
-    password: 'password'
+    name: 'jackdizhu1',
+    password: 'password1'
   })
-  let user = await userModel.insert({
+  let users = await userModel.find({ name: 'jackdizhu' })
+  let obj = {
     name: 'jackdizhu',
     password: 'password',
-    userChildren: mongoose.Types.ObjectId(userChildren._id)
-  })
+    _userChildren: userChildren._id,
+    _userChildrenList: [userChildren._id]
+  }
+
+  let user = await userModel.insert(obj)
   ctx.body = {
     title: 'koa2 json',
     user: user,
