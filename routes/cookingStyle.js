@@ -1,7 +1,10 @@
-const router = require('koa-router')()
+// const router = require('koa-router')()
 
-router.prefix('/cookingStyle')
+// router.prefix('/cookingStyle')
 
+const fs = require("fs");
+const path = require('path')
+const _request = require("request");
 const request = require("request-promise");
 const cheerio = require("cheerio");
 const cookingData = require('../com/cookingData')
@@ -162,6 +165,9 @@ const getData = async function (options) {
 }
 const getDataDetails = async function (options) {
   const body = await request(options)
+  if (!body) {
+    return {}
+  }
   let $ = cheerio.load(body)
   let cp_body = $(".cp_body")
   // 主料
@@ -189,6 +195,11 @@ const getDataDetails = async function (options) {
   }
 
   return obj
+}
+const downloadUrl = async function (options, name) {
+  var filename = path.resolve(__dirname, '../log/' + name)
+  await _request(options.uri).pipe(fs.createWriteStream(filename))
+  return true
 }
 
 const index = async function (ctx, next) {
@@ -234,32 +245,58 @@ const details = async function (ctx, next) {
     for (let i = 0; i < arr.length; i++) {
       const url = arr[i].target
       options.uri = url
-      await sleep(1000)
+      await sleep(100)
       console.log(url)
       arr[i].data = await getDataDetails(options)
     }
   }
-  return data
+  return cookingData
+}
+const image = async function (ctx, next) {
+  let options = {
+    method: 'GET',
+    uri: 'https://www.meishij.net/china-food/caixi/',
+    headers: {
+      "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+      "Accept-Language":"zh-CN,zh;q=0.8",
+      "Cache-Control":"max-age=0",
+      "Connection":"keep-alive",
+      "Host":"www.meishij.net",
+      "Referer":"https://www.meishij.net/list.php?sortby=renqi&lm=41",
+      "Upgrade-Insecure-Requests": 1,
+      "User-Agent": userAgents[parseInt(Math.random() * userAgents.length)]
+    }
+  }
+  let num = 0
+  for (let i = 0; i < cookingData.length; i++) {
+    let arr = cookingData[i].data
+    num += arr.length
+    for (let i = 0; i < arr.length; i++) {
+      let url = arr[i].img
+      let arr2 = url.split('/')
+      let name = arr2[arr2.length - 1]
+      options.uri = url
+      await sleep(100)
+      console.log(url, name)
+      arr[i].data = await downloadUrl(options, name)
+    }
+  }
+  console.log(num, '统计')
+  return cookingData
 }
 
-router.get('/', async (ctx, next) => {
+const fn_index = async () => {
   let R = await index()
+  log(R)
+}
 
-  ctx.body = {
-    title: 'cookingStyle',
-    data: R
-  }
-  // ctx.body = R[0].data
-})
-router.get('/details', async (ctx, next) => {
+const fn_details = async (ctx, next) => {
   let R = await details()
   log(R)
+}
+const fn_image = async (ctx, next) => {
+  let R = await image()
+  log(R)
+}
 
-  ctx.body = {
-    title: 'cookingStyle',
-    data: R
-  }
-  // ctx.body = R[0].data
-})
-
-module.exports = router
+fn_image()
