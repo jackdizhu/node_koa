@@ -174,19 +174,32 @@ const getDataDetails = async function (options) {
   let mainMaterial = []
   let arr = cp_body.find('.yl.zl .clearfix li')
   for (let i = 0; i < arr.length; i++) {
-    mainMaterial.push($(arr[i]).text())
+    mainMaterial.push($(arr[i]).text().replace(/(^\s*\n*)|(\s*\n*$)/g, ""))
   }
   // 辅料
   let auxiliaryMaterials = []
   let arr2 = cp_body.find('.yl.fuliao .clearfix li')
   for (let i = 0; i < arr2.length; i++) {
-    auxiliaryMaterials.push($(arr2[i]).text())
+    auxiliaryMaterials.push($(arr2[i]).text().replace(/(^\s*\n*)|(\s*\n*$)/g, ""))
   }
   // 做法
   let cookingMethod = []
-  let arr3 = cp_body.find('.editnew.edit .content')
-  for (let i = 0; i < arr3.length; i++) {
-    cookingMethod.push($(arr3[i]).find('p').text().replace(/[0-9]+[.、]?/, ''))
+  if (cp_body.find('.measure .edit .content').length) {
+    let arr3 = cp_body.find('.measure .edit .content')
+    for (let i = 0; i < arr3.length; i++) {
+      let text = $(arr3[i]).find('p').text().replace(/[0-9]+[.、]?/, '').replace(/(^\s*\n*)|(\s*\n*$)/g, "")
+      if (text) {
+        cookingMethod.push(text)
+      }
+    }
+  } else {
+    let arr3 = cp_body.find('.measure .edit p')
+    for (let i = 0; i < arr3.length; i++) {
+      let text = $(arr3[i]).text().replace(/[0-9]+[.、]?/, '').replace(/(^\s*\n*)|(\s*\n*$)/g, "")
+      if (text) {
+        cookingMethod.push(text)
+      }
+    }
   }
   let obj = {
     mainMaterial: mainMaterial,
@@ -299,4 +312,4 @@ const fn_image = async (ctx, next) => {
   log(R)
 }
 
-fn_image()
+fn_details()
