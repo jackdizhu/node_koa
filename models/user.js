@@ -29,7 +29,7 @@ exports.update = function (user) {
 }
 
 exports.getByName = function (userName) {
-  return UserModel.findOne({ name: userName })
+  return UserModel.findOne({ name: userName }).populate('userChildren')
 }
 
 exports.getById = function (userId) {
