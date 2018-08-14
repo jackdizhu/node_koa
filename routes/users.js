@@ -22,13 +22,14 @@ router.get('/json', async (ctx, next) => {
 })
 // 添加记录
 router.get('/add', async (ctx, next) => {
-  let user = await userModel.insert({
-    name: 'jackdizhu',
-    password: 'password'
-  })
   let userChildren = await userChildrenModel.insert({
     name: 'jackdizhu',
     password: 'password'
+  })
+  let user = await userModel.insert({
+    name: 'jackdizhu',
+    password: 'password',
+    userChildren: userChildren._id
   })
   ctx.body = {
     title: 'koa2 json',
