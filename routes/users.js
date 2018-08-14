@@ -1,5 +1,6 @@
 const router = require('koa-router')()
 const userModel = require('../models/user')
+const userChildrenModel = require('../models/userChildren')
 
 router.prefix('/users')
 
@@ -25,9 +26,14 @@ router.get('/add', async (ctx, next) => {
     name: 'jackdizhu',
     password: 'password'
   })
+  let userChildren = await userChildrenModel.insert({
+    name: 'jackdizhu',
+    password: 'password'
+  })
   ctx.body = {
     title: 'koa2 json',
-    user: user
+    user: user,
+    userChildren: userChildren
   }
 })
 // 查找记录
