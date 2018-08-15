@@ -7,7 +7,6 @@ const path = require('path')
 const _request = require("request");
 const request = require("request-promise");
 const cheerio = require("cheerio");
-const cookingData = require('../com/cookingData')
 const userAgents = require('../com/userAgents')
 const cooking = require('../com/cooking')
 const cookingModel = require('../models/cooking')

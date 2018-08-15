@@ -96,8 +96,10 @@ const details = async function (ctx, next) {
     }
   }
 
-  // let item = await cookingModel.getById('5b7394189ca6b025ec494134')
   let arr = await cookingModel.find({'data': undefined}).limit(10000)
+  // let arr = await cookingModel.find().count()
+  // console.log(arr, 123)
+
   if (!arr || !arr.length) {
     console.log({'data': undefined}, '查询无结果')
     return 0
