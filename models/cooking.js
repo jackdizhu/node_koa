@@ -23,11 +23,12 @@ exports.update = function (cooking) {
     _id: cooking._id
   }, {
     $set: {
-      name: cooking.name,
-      type: cooking.type,
-      typeName: cooking.typeName,
-      img: cooking.img,
-      target: cooking.target,
+      // 只更新 一个字段
+      // name: cooking.name,
+      // type: cooking.type,
+      // typeName: cooking.typeName,
+      // img: cooking.img,
+      // target: cooking.target,
       data: cooking.data
     }
   })
