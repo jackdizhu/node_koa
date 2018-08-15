@@ -9,7 +9,6 @@ const request = require("request-promise");
 const cheerio = require("cheerio");
 const userAgents = require('../com/userAgents')
 const cookingUrl = require('../com/cookingUrl')
-const cookingData = require('../com/cookingData')
 const cookingModel = require('../models/cooking')
 
 const log = require("../com/log")();
@@ -97,11 +96,19 @@ const details = async function (ctx, next) {
     }
   }
 
-  let item = await cookingModel.getById('5b7394189ca6b025ec494134')
-  const url = item.target
-  options.uri = url
-  await sleep(100)
-  await getDataDetails(options, item)
+  // let item = await cookingModel.getById('5b7394189ca6b025ec494134')
+  let arr = await cookingModel.find({'data': undefined}).limit(10000)
+  if (!arr || !arr.length) {
+    console.log({'data': undefined}, '查询无结果')
+    return 0
+  }
+  for (let i = 0; i < arr.length; i++) {
+    let item = arr[i]
+    let url = item.target
+    options.uri = url
+    await sleep(100)
+    await getDataDetails(options, item)
+  }
 }
 
 const fn_details = async (ctx, next) => {

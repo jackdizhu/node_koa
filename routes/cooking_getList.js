@@ -9,7 +9,6 @@ const request = require("request-promise");
 const cheerio = require("cheerio");
 const userAgents = require('../com/userAgents')
 const cookingUrl = require('../com/cookingUrl')
-const cookingData = require('../com/cookingData')
 const cookingModel = require('../models/cooking')
 
 const log = require("../com/log")();
