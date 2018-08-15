@@ -14,8 +14,6 @@ const bodyparser = require('koa-bodyparser') // form-data 不支持  x-www-form-
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
-// const cookingStyle = require('./routes/cookingStyle')
 const api = require('./routes/api')
 
 // error handler
@@ -78,7 +76,6 @@ app.use(async (ctx, next) => {
 })
 
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
 // app.use(cookingStyle.routes(), cookingStyle.allowedMethods())
 
