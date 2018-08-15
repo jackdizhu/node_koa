@@ -43,5 +43,30 @@ module.exports = {
     head_img: {
       type: String
     }
-  }
+  },
+  cooking: {
+		name: {
+      type: String,
+      required: true
+    },
+		type: {
+      type: String,
+      required: true
+    },
+		typeName: {
+      type: String,
+      required: true
+    },
+		img: {
+      type: String,
+      required: true
+    },
+		target: {
+      type: String,
+      required: true
+    },
+		data: {
+      type: Object
+		}
+	}
 }

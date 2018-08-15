@@ -1,5 +1,4 @@
 const router = require('koa-router')()
-const mongoose = require('mongoose')
 const userModel = require('../models/user')
 const userChildrenModel = require('../models/userChildren')
 
