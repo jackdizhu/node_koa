@@ -43,9 +43,9 @@ app.use(json())
 // api 服务器 允许跨域
 app.use(cors())
 app.use(logger())
-app.use(require('koa-static')(path.resolve(__dirname, '/public')))
+app.use(require('koa-static')(path.resolve(__dirname, './public')))
 
-app.use(views(path.resolve(__dirname, '/views'), {
+app.use(views(path.resolve(__dirname, './views'), {
   extension: 'ejs'
 }))
 
