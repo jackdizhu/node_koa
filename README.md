@@ -27,3 +27,26 @@ koa2 -e
   ],
 }
 ```
+
+* node koa mysql sequelize 增 改 查
+
+``` js
+User.create({
+  userName: userName,
+  password: password
+})
+User.update({
+  userName: user.userName,
+  password: user.password
+}, {
+  where: {
+    id: user.id
+  }
+})
+User.findOne({
+  where: where
+})
+User.findAll({
+  where: where
+})
+```
