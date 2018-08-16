@@ -5,7 +5,7 @@ const config = require('../config')
 const dbHandel = require('../database/index')
 const UserModel = dbHandel.getModel('user')
 
-exports.insert = function ({ name, password, nickName, headImg, _userChildren, _userChildrenList}) {
+exports.insert = function ({ name, password, nickName, headImg, _userChildren, _userChildrenList }) {
   const user = new UserModel()
 
   user.name = name
