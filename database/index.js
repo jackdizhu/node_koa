@@ -1,35 +1,12 @@
+var Sequelize = require('sequelize')
+var config = require('../config')
 
-var mongoose = require('mongoose')
-
-const config = require('../config')
-
-mongoose.Promise = global.Promise
-mongoose.connect(config.db, {
-  server: {
-    poolSize: 20
-  }
-}, (err) => {
-  if (err) {
-    console.error('connect to %s error: ', config.db, err.message)
-    process.exit(1)
+module.exports = new Sequelize(config.db.database, config.db.username, config.db.password, {
+  host: config.db.host, // 数据库地址
+  dialect: config.db.dialect, // 指定连接的数据库类型
+  pool: {
+    max: config.db.pool.max, // 连接池中最大连接数量
+    min: config.db.pool.min, // 连接池中最小连接数量
+    idle: config.db.pool.idle // 如果一个线程 10 秒钟内没有被使用过的话，那么就释放线程
   }
 })
-
-var Schema = mongoose.Schema
-
-var models = require('./models')
-
-for (var m in models) {
-  // Schema.index({ project: 1, create_at: -1 })
-  mongoose.model(m, new Schema(models[m]))
-}
-
-module.exports = {
-  getModel: function (type) {
-    return _getModel(type)
-  }
-}
-
-var _getModel = function (type) {
-  return mongoose.model(type)
-}

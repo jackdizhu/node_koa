@@ -1,7 +1,6 @@
 const router = require('koa-router')()
-const mongoose = require('mongoose')
 const userModel = require('../models/user')
-const userChildrenModel = require('../models/userChildren')
+// const userChildrenModel = require('../models/userChildren')
 
 router.prefix('/users')
 
@@ -16,35 +15,34 @@ router.get('/string', async (ctx, next) => {
 })
 
 router.get('/json', async (ctx, next) => {
-  // let users = await userModel.find({name: 'jackdizhu'})
+  // let users = await userModel.find({userName: 'jackdizhu'})
   ctx.body = {
     title: 'koa2 json'
   }
 })
 // 添加记录
 router.get('/add', async (ctx, next) => {
-  let userChildren = await userChildrenModel.insert({
-    name: 'jackdizhu1',
-    password: 'password1'
-  })
-  let users = await userModel.find({ name: 'jackdizhu' })
+  // let userChildren = await userChildrenModel.insert({
+  //   userName: 'jackdizhu1',
+  //   password: 'password1'
+  // })
   let obj = {
-    name: 'jackdizhu',
-    password: 'password',
-    _userChildren: userChildren._id,
-    _userChildrenList: [userChildren._id]
+    userName: 'jackdizhu',
+    password: 'password'
+    // _userChildren: userChildren._id,
+    // _userChildrenList: [userChildren._id]
   }
 
   let user = await userModel.insert(obj)
   ctx.body = {
     title: 'koa2 json',
-    user: user,
-    userChildren: userChildren
+    user: user
+    // userChildren: userChildren
   }
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
-  let users = await userModel.find({ name: 'jackdizhu' }).populate('_userChildren').populate('_userChildrenList')
+  let users = await userModel.find({ userName: 'jackdizhu' })
   ctx.body = {
     title: 'koa2 json',
     users: users
@@ -52,12 +50,13 @@ router.get('/find', async (ctx, next) => {
 })
 // 修改记录
 router.get('/edit', async (ctx, next) => {
-  let _user = await userModel.findOne({name: 'jackdizhu'})
-  _user._id = _user._id.toString()
-  _user.nick_name = 'jackdizhu1'
+  let _user = await userModel.findOne({userName: 'jackdizhu'})
+  _user.userName = 'jackdizhu1'
+  console.log(_user, 111)
+
   // let R =
   await userModel.update(_user)
-  let user = await userModel.findOne({name: 'jackdizhu'})
+  let user = await userModel.findOne({userName: 'jackdizhu1'})
   ctx.body = {
     title: 'koa2 json',
     user: user
