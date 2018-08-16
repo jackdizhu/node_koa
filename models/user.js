@@ -39,7 +39,7 @@ exports.getById = function (userId) {
 }
 
 exports.find = function (query, opt) {
-  return UserModel.find(query, {}, opt)
+  return UserModel.find(query, {}, opt).populate('_userChildren').populate('_userChildrenList')
 }
 
 exports.findOne = function (query, opt) {
