@@ -44,7 +44,7 @@ var User = DB.define('user', {
   freezeTableName: true
 })
 
-// 建立表 关联
+// 建立表 关联 ( 会生成外键约束 导致新增数据报错 )
 // 指定 User 和 UserChildren 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
 // User.belongsTo(UserChildren.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
 // 指定 User 和 UserChildren 的关系为 1 : n 的关系 User.id === UserChildren.userId
