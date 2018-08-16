@@ -26,7 +26,7 @@ exports.findOne = function (where) {
 exports.findOneInclude = function (where) {
   return User.findOne({
     include: [{
-      model: UserChildren.User,
+      model: UserChildren,
       'where': where
     }]
   })
@@ -45,7 +45,7 @@ exports.findInclude = function (where, whereChildren) {
     'where': where,
     include: [
       {
-        model: UserChildren.User,
+        model: UserChildren,
         'where': whereChildren
       }
     ]
