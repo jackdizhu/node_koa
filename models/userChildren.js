@@ -2,11 +2,11 @@
 
 var Sequelize = require('sequelize')
 var DB = require('../database/index')
-var UserChildrenModal = require('./userChildren')
+// var UserModal = require('./user')
 
 // 创建 model
-var User = DB.define('user', {
-  userChildrenId: {
+var User = DB.define('userChildren', {
+  userId: {
     type: Sequelize.STRING
   },
   userName: {
@@ -33,17 +33,13 @@ User.sync({
   force: false
 })
 
-// 建立表 关联
-// 指定 UserChildren 和 User 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
-User.belongsTo(UserChildrenModal.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
-
 exports.User = User
 
 // 添加新用户
-exports.insert = function ({userName, password, userChildrenId}) {
+exports.insert = function ({userName, password, userId}) {
   // 向 user 表中插入数据
   return User.create({
-    userChildrenId: userChildrenId,
+    userId: userId,
     userName: userName,
     password: password
   })
@@ -57,32 +53,9 @@ exports.findOne = function (where) {
 }
 
 // 通过用户名查找用户
-exports.findOneInclude = function (where) {
-  return User.findOne({
-    include: [{
-      model: UserChildrenModal.User,
-      'where': where
-    }]
-  })
-}
-
-// 通过用户名查找用户
 exports.find = function (where) {
   return User.findAll({
     where: where
-  })
-}
-
-// 通过用户名查找用户
-exports.findInclude = function (where, whereChildren) {
-  return User.findAll({
-    'where': where,
-    include: [
-      {
-        model: UserChildrenModal.User,
-        'where': whereChildren
-      }
-    ]
   })
 }
 
@@ -102,4 +75,3 @@ exports.update = function (user) {
     }
   })
 }
-

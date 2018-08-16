@@ -1,5 +1,6 @@
 const router = require('koa-router')()
 const userModel = require('../models/user')
+const userChildrenModel = require('../models/userChildren')
 // const userChildrenModel = require('../models/userChildren')
 
 router.prefix('/users')
@@ -22,27 +23,28 @@ router.get('/json', async (ctx, next) => {
 })
 // 添加记录
 router.get('/add', async (ctx, next) => {
-  // let userChildren = await userChildrenModel.insert({
-  //   userName: 'jackdizhu1',
-  //   password: 'password1'
-  // })
   let obj = {
-    userName: 'jackdizhu',
-    password: 'password'
-    // _userChildren: userChildren._id,
-    // _userChildrenList: [userChildren._id]
+    userName: 'jackdizhu1',
+    password: 'password1'
   }
+  let userChildren = await userChildrenModel.insert(obj)
 
+  obj.userChildrenId = userChildren.id
+  obj.userName = 'jackdizhu'
+  obj.password = 'password'
   let user = await userModel.insert(obj)
+
   ctx.body = {
     title: 'koa2 json',
-    user: user
-    // userChildren: userChildren
+    user: user,
+    userChildren: userChildren
   }
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
-  let users = await userModel.find({ userName: 'jackdizhu' })
+  // let users = await userModel.find({ userName: 'jackdizhu' })
+  let users = await userModel.findInclude({userName: 'jackdizhu'}, {userName: 'jackdizhu1'})
+
   ctx.body = {
     title: 'koa2 json',
     users: users
@@ -51,6 +53,7 @@ router.get('/find', async (ctx, next) => {
 // 修改记录
 router.get('/edit', async (ctx, next) => {
   let _user = await userModel.findOne({userName: 'jackdizhu'})
+
   _user.userName = 'jackdizhu1'
   console.log(_user, 111)
 

@@ -29,6 +29,7 @@ koa2 -e
 ```
 
 * node koa mysql sequelize 增 改 查
+* 数据表关联
 
 ``` js
 User.create({
@@ -49,4 +50,7 @@ User.findOne({
 User.findAll({
   where: where
 })
+
+// 指定 UserChildren 和 User 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
+User.belongsTo(UserChildrenModal.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
 ```
