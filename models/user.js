@@ -31,7 +31,7 @@ exports.update = function (user) {
 }
 
 exports.getByName = function (userName) {
-  return UserModel.findOne({ name: userName }).populate('userChildren')
+  return UserModel.findOne({ name: userName }).populate('_userChildren')
 }
 
 exports.getById = function (userId) {
