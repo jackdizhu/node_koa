@@ -25,6 +25,12 @@ var User = DB.define('user', {
   freezeTableName: true
 })
 
+// 建立表 关联
+// 指定 User 和 UserChildren 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
+// User.belongsTo(UserChildrenModal.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
+// 指定 User 和 UserChildren 的关系为 1 : n 的关系 User.id === UserChildren.userId
+User.hasMany(UserChildrenModal.User, {foreignKey: 'id', targetKey: 'userId'})
+
 // 创建表
 // User.sync() 会创建表并且返回一个Promise对象
 // 如果 force = true 则会把存在的表（如果users表已存在）先销毁再创建表
@@ -32,10 +38,6 @@ var User = DB.define('user', {
 User.sync({
   force: false
 })
-
-// 建立表 关联
-// 指定 UserChildren 和 User 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
-User.belongsTo(UserChildrenModal.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
 
 exports.User = User
 
