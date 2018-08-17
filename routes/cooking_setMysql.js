@@ -10,7 +10,7 @@ const cheerio = require("cheerio");
 const userAgents = require('../com/userAgents')
 const cookingUrl = require('../com/cookingUrl')
 const cooking = require('../com/cooking')
-const cookingModel = require('../models/cooking')
+const cookingModel = require('../models/cookingMysql')
 
 const log = require("../com/log")();
 /*
@@ -34,19 +34,13 @@ const sleep = function (ms) {
 let filePath = path.resolve(__dirname, '../data/')
 
 const fn_index = async (ctx, next) => {
+  let data = {}
   for (let i = 0; i < cooking.length; i++) {
-    let arr = await cookingModel.find({'type': cooking[i].value})
-    let _json = ''
-    try {
-      _json = JSON.stringify(arr)
-    } catch (error) {
-      _json = '[]'
+    data[cooking[i].value] = require('../data/' + cooking[i].value + '.js')
+    let arr = data[cooking[i].value]
+    for (let i = 0; i < arr.length; i++) {
+      await cookingModel.insert(arr[i])
     }
-    let data = 'module.exports = ' + _json
-    let filename = filePath + '/' + cooking[i].value + '.js'
-    // console.log(filename)
-
-    await fs.writeFile(filename, data, { encoding: 'utf-8' })
   }
 }
 
