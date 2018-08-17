@@ -38,10 +38,16 @@ exports.getById = function (userId) {
   return UserModel.findById(userId)
 }
 
-exports.find = function (query, opt) {
-  return UserModel.find(query, {}, opt).populate('_userChildren').populate('_userChildrenList')
+exports.find = function (query, opt, limit, page) {
+  limit = limit || 10
+  page = page || 1
+  return UserModel.find(query, {}, opt).populate('_userChildren').populate('_userChildrenList').limit(limit).skip(limit * (page - 1))
 }
 
 exports.findOne = function (query, opt) {
   return UserModel.findOne(query, {}, opt)
+}
+
+exports.count = function (query) {
+  return UserModel.count(query)
 }

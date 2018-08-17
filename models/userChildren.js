@@ -36,8 +36,10 @@ exports.getById = function (userId) {
   return UserModel.findById(userId)
 }
 
-exports.find = function (query, opt) {
-  return UserModel.find(query, {}, opt)
+exports.find = function (query, opt, limit, page) {
+  limit = limit || 10
+  page = page || 1
+  return UserModel.find(query, {}, opt).limit(limit).skip(limit * (page - 1))
 }
 
 exports.findOne = function (query, opt) {

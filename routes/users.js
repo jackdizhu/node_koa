@@ -44,10 +44,12 @@ router.get('/add', async (ctx, next) => {
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
+  let count = await userModel.count({ name: 'jackdizhu' })
   let users = await userModel.find({ name: 'jackdizhu' })
   ctx.body = {
     title: 'koa2 json',
-    users: users
+    users: users,
+    count: count
   }
 })
 // 修改记录

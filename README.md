@@ -112,6 +112,17 @@ userChildren: {
 }
 userModel.find({ name: 'jackdizhu' }).populate('_userChildrenList')
 
+// 分页
+limit = limit || 10
+page = page || 1
+UserModel.find(query, {}, opt)
+.populate('_userChildren')
+.populate('_userChildrenList')
+.limit(limit)
+.skip(limit * (page - 1))
+// 统计
+UserModel.count(query)
+
 ```
 
 * node koa mysql sequelize 增 改 查
