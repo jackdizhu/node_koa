@@ -47,9 +47,11 @@ User.update({
 User.findOne({
   where: where
 })
+// limit 分页 page 当前页
 User.findAll({
   where: where,
-  limit: limit || 10
+  limit: limit,
+  offset: limit * (page - 1)
 })
 
 // 因为 Sequelize 做了很多神奇的事，所以你必须在设置关联后调用 Sequelize.sync
