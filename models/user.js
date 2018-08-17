@@ -43,6 +43,14 @@ exports.find = function (where, limit, page) {
   })
 }
 
+// 统计数量
+exports.count = function (where) {
+  return User.findAll({
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
+    where: where
+  })
+}
+
 // 通过用户名查找用户
 exports.findInclude = function (where, whereChildren, limit, page) {
   limit = limit || 10

@@ -1,6 +1,6 @@
 // user.js
 
-// var Sequelize = require('sequelize')
+let Sequelize = require('sequelize')
 // var DB = require('../database/index')
 let UserChildren = require('./index').UserChildren
 // var UserModal = require('./user')
@@ -30,6 +30,14 @@ exports.find = function (where, limit, page) {
     where: where,
     limit: limit,
     offset: limit * (page - 1)
+  })
+}
+
+// 统计数量
+exports.count = function (where) {
+  return UserChildren.findAll({
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
+    where: where
   })
 }
 
