@@ -33,16 +33,18 @@ exports.findOneInclude = function (where) {
 }
 
 // 通过用户名查找用户
-exports.find = function (where) {
+exports.find = function (where, limit) {
   return User.findAll({
-    where: where
+    where: where,
+    limit: limit || 10
   })
 }
 
 // 通过用户名查找用户
-exports.findInclude = function (where, whereChildren) {
+exports.findInclude = function (where, whereChildren, limit) {
   return User.findAll({
     'where': where,
+    limit: limit || 10,
     include: [
       {
         model: UserChildren,

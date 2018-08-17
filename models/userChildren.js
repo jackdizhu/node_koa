@@ -23,9 +23,10 @@ exports.findOne = function (where) {
 }
 
 // 通过用户名查找用户
-exports.find = function (where) {
+exports.find = function (where, limit) {
   return UserChildren.findAll({
-    where: where
+    where: where,
+    limit: limit || 10
   })
 }
 

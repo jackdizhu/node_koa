@@ -48,7 +48,8 @@ User.findOne({
   where: where
 })
 User.findAll({
-  where: where
+  where: where,
+  limit: limit || 10
 })
 
 // 因为 Sequelize 做了很多神奇的事，所以你必须在设置关联后调用 Sequelize.sync
