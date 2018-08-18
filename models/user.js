@@ -1,6 +1,6 @@
 // user.js
 
-// var Sequelize = require('sequelize')
+var Sequelize = require('sequelize')
 // var DB = require('../database/index')
 let UserChildren = require('./index').UserChildren
 let User = require('./index').User
