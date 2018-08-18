@@ -44,11 +44,12 @@ exports.find = function (where, limit, page) {
 }
 
 // 统计数量
-exports.count = function (where) {
-  return User.findAll({
+exports.count = async function (where) {
+  let count = await User.findAll({
     attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
     where: where
   })
+  return count[0] && count[0].get && count[0].get('count')
 }
 
 // 通过用户名查找用户
