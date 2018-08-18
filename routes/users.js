@@ -42,8 +42,8 @@ router.get('/add', async (ctx, next) => {
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
-  let pagesize = ctx.query.pagesize || 1
-  let page = ctx.query.page || 1
+  let pagesize = Number(ctx.query.pagesize) || 1
+  let page = Number(ctx.query.page) || 1
   // let users = await userModel.find({ userName: 'jackdizhu' })
   let count = await userModel.count({userName: 'jackdizhu'})
   let users = await userModel.findInclude({userName: 'jackdizhu'}, {userName: 'jackdizhu1'}, pagesize, page)
