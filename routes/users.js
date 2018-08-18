@@ -44,12 +44,18 @@ router.get('/add', async (ctx, next) => {
 })
 // 查找记录
 router.get('/find', async (ctx, next) => {
+  let pagesize = Number(ctx.query.pagesize) || 1
+  let page = Number(ctx.query.page) || 1
   let count = await userModel.count({ name: 'jackdizhu' })
-  let users = await userModel.find({ name: 'jackdizhu' })
+  let users = await userModel.find({ name: 'jackdizhu' }, pagesize, page)
   ctx.body = {
     title: 'koa2 json',
-    users: users,
-    count: count
+    data: {
+      count: count,
+      pagesize: pagesize,
+      page: page,
+      data: users
+    }
   }
 })
 // 修改记录
