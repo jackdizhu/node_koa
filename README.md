@@ -53,11 +53,14 @@ User.findAll({
   limit: limit,
   offset: limit * (page - 1)
 })
-// 统计查询 
-Cooking.findAll({
-  attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
-  where: where
-})
+// 统计数量 count[0].get('count') 必须使用 .get('count') 方法获取
+exports.count = async function (where) {
+  let count = await Cooking.findAll({
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
+    where: where
+  })
+  return count[0] && count[0].get && count[0].get('count')
+}
 
 // 因为 Sequelize 做了很多神奇的事，所以你必须在设置关联后调用 Sequelize.sync
 // 指定 User 和 UserChildren 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
