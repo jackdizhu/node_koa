@@ -13,9 +13,13 @@ var User = DB.define('cooking', {
     type: Sequelize.INTEGER, // 指定值的类型
     field: '__v' // 指定存储在表中的键名称
   },
-  target: {
+  praise: {
     type: Sequelize.STRING, // 指定值的类型
-    field: 'target' // 指定存储在表中的键名称
+    field: 'praise' // 指定存储在表中的键名称
+  },
+  evaluate: {
+    type: Sequelize.STRING, // 指定值的类型
+    field: 'evaluate' // 指定存储在表中的键名称
   },
   img: {
     type: Sequelize.STRING, // 指定值的类型
@@ -58,7 +62,7 @@ exports.User = User
 // let User = require('./index').User
 
 // 添加新用户
-exports.insert = function ({_id, __v, target, img, typeName, type, name, data}) {
+exports.insert = function ({_id, __v, praise, evaluate, img, typeName, type, name, data}) {
   let dataString = ''
   try {
     dataString = JSON.stringify(data)
@@ -69,7 +73,8 @@ exports.insert = function ({_id, __v, target, img, typeName, type, name, data}) 
   return User.create({
     "id" : _id,
     "__v" : __v,
-    "target" : target,
+    "praise" : praise,
+    "evaluate" : evaluate,
     "img" : img,
     "typeName" : typeName,
     "type" : type,

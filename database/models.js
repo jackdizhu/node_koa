@@ -53,6 +53,14 @@ module.exports = {
       type: String,
       required: true
     },
+		praise: {
+      type: String,
+      required: true
+    },
+		evaluate: {
+      type: String,
+      required: true
+    },
 		typeName: {
       type: String,
       required: true

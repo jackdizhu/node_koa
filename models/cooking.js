@@ -5,10 +5,12 @@ const config = require('../config')
 const dbHandel = require('../database/index')
 const CookingModel = dbHandel.getModel('cooking')
 
-exports.insert = function ({ name, type, typeName, img, target, data}) {
+exports.insert = function ({ name, praise, evaluate, type, typeName, img, target, data}) {
   const cooking = new CookingModel()
 
   cooking.name = name
+  cooking.praise = praise
+  cooking.evaluate = evaluate
   cooking.type = type
   cooking.typeName = typeName
   cooking.img = img
@@ -29,6 +31,8 @@ exports.update = function (cooking) {
       // typeName: cooking.typeName,
       // img: cooking.img,
       // target: cooking.target,
+      praise: cooking.praise,
+      evaluate: cooking.evaluate,
       data: cooking.data
     }
   })
