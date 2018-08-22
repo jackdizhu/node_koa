@@ -48,6 +48,7 @@ exports.getById = function (cookingId) {
 
 exports.find = function (query, opt) {
   return CookingModel.find(query, {}, opt)
+  // .limit(100)
 }
 
 exports.findOne = function (query, opt) {
