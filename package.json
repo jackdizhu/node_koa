@@ -25,11 +25,12 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
     "mockjs": "^1.0.1-beta3",
+    "mongoose": "4.7.6",
+    "mysql2": "^1.6.1",
+    "qiniu": "^6.1.10",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "mysql2": "^1.6.1",
     "sequelize": "^4.38.0",
-    "mongoose": "4.7.6",
     "util": "^0.10.3"
   },
   "devDependencies": {
