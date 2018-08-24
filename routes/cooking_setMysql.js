@@ -43,5 +43,11 @@ const fn_index = async (ctx, next) => {
     }
   }
 }
+// const fn_index = async (ctx, next) => {
+//   let arr = require('../data/' + 'data' + '.js')
+//   for (let i = 0; i < arr.length; i++) {
+//     await cookingModel.insert(arr[i])
+//   }
+// }
 
 fn_index()
