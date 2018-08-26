@@ -71,6 +71,11 @@ userChildren: {
 }
 userModel.find({ name: 'jackdizhu' }).populate('_userChildren')
 
+// 过滤 password 字段
+UserModel.find(query, {password: 0}, opt)
+// 只取 _id name 字段
+UserModel.find(query, {_id: 1,name: 1}, opt)
+
 // user userChildren 1 对 n 关联
 user: {
   _userChildrenList: [
