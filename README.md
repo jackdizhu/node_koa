@@ -53,6 +53,22 @@ User.findAll({
   limit: limit,
   offset: limit * (page - 1)
 })
+Cooking.findAll({
+  // exclude 过滤不必要的字段
+  attributes: {
+    exclude: ['data', 'createdAt', 'updatedAt']
+  },
+  where: where,
+  limit: limit,
+  offset: limit * (page - 1)
+})
+Cooking.findAll({
+  // 只方法指定字段
+  attributes: ['id', 'name', 'type', 'typeName', 'img', 'praise', 'evaluate'],
+  where: where,
+  limit: limit,
+  offset: limit * (page - 1)
+})
 // 统计数量 count[0].get('count') 必须使用 .get('count') 方法获取
 exports.count = async function (where) {
   let count = await Cooking.findAll({
