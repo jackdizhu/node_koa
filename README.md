@@ -27,6 +27,15 @@ koa2 -e
   ],
 }
 ```
+```js
+// 静态资源缓存控制 ETag: "NF4IqKE0IJ3O7ZqNtAlw9w=="
+const staticCache = require('koa-static-cache');
+app.use(
+  staticCache(path.resolve(__dirname, './public'), {
+    maxAge: 365 * 24 * 60 * 60
+  })
+);
+```
 
 * node koa mongodb mongoose 增 改 查
 * 数据表关联
