@@ -25,6 +25,13 @@ exports.update = function (cooking) {
     _id: cooking._id
   }, {
     $set: {
+      // 新增加字段
+      tags: cooking.tags,
+      describe: cooking.describe,
+      difficulty: cooking.difficulty,
+      peopleNum: cooking.peopleNum,
+      preparationTime: cooking.preparationTime,
+      cookingTime: cooking.cookingTime,
       // 只更新 一个字段
       // name: cooking.name,
       // type: cooking.type,

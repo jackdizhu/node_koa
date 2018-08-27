@@ -10,6 +10,7 @@ const cheerio = require("cheerio");
 const userAgents = require('../com/userAgents')
 const cookingUrl = require('../com/cookingUrl')
 const cookingModel = require('../models/cooking')
+const Mock = require('mockjs')
 
 const log = require("../com/log")();
 /*
@@ -37,24 +38,36 @@ const getDataDetails = async function (options, item) {
   }
   let $ = cheerio.load(body)
   let cp_body = $(".cp_body")
+  let cp_header = $(".cp_header")
   // 标签
   let tags = []
-  let arr = cp_body.find('.yj_tags dt')
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].text()) {
-      tags.push(arr[i].text())
+  let tagsArr = cp_header.find('.yj_tags dt')
+  for (let i = 0; i < tagsArr.length; i++) {
+    if ($(tagsArr[i]).text()) {
+      tags.push($(tagsArr[i]).text())
     }
   }
+  item.tags = tags
+
   // 描述
-  let describe = cp_body.find('.materials>p').text()
+  let describe = cp_body.find('.materials>p').text().replace(/(^“)|(”$)/g, '')
+  item.describe = describe
+
   // 难度
-  let difficulty = cp_body.find('#tongji_nd').text()
+  let difficulty = cp_header.find('a#tongji_nd').text()
+  item.difficulty = difficulty
+
   // 人数
-  let peopleNum = cp_body.find('#tongji_rsh').text()
+  let peopleNum = cp_header.find('a#tongji_rsh').text()
+  item.peopleNum = peopleNum
+
   // 准备时间
-  let peopleNum = cp_body.find('#tongji_zbsj').text()
+  let preparationTime = cp_header.find('a#tongji_zbsj').text()
+  item.preparationTime = preparationTime
+
   // 烹饪时间
-  let peopleNum = cp_body.find('#tongji_prsj').text()
+  let cookingTime = cp_header.find('a#tongji_prsj').text()
+  item.cookingTime = cookingTime
 
   // 主料
   let mainMaterial = []
@@ -93,6 +106,10 @@ const getDataDetails = async function (options, item) {
     cookingMethod: cookingMethod
   }
   item.data = obj
+
+  item.praise = Mock.mock('@float(60, 100, 2, 2)%')
+  item.evaluate = Mock.mock('@integer(500, 900)')
+
   console.log(item.name, 111)
   await cookingModel.update(item)
 
@@ -114,13 +131,14 @@ const details = async function (ctx, next) {
       "User-Agent": userAgents[parseInt(Math.random() * userAgents.length)]
     }
   }
+  let query = {'describe': undefined}
 
-  let arr = await cookingModel.find({'data': undefined}).limit(10000)
+  let arr = await cookingModel.find(query).limit(20000)
   // let arr = await cookingModel.find().count()
   // console.log(arr, 123)
 
   if (!arr || !arr.length) {
-    console.log({'data': undefined}, '查询无结果')
+    console.log(query, '查询无结果')
     return 0
   }
   for (let i = 0; i < arr.length; i++) {

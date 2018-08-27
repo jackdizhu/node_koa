@@ -73,6 +73,24 @@ module.exports = {
       type: String,
       required: true
     },
+    tags: { // 标签
+      type: Array
+    },
+    describe: { // 描述
+      type: String
+    },
+    difficulty: { // 难度
+      type: String
+    },
+    peopleNum: { // 人数
+      type: String
+    },
+    preparationTime: { // 准备时间
+      type: String
+    },
+    cookingTime: { // 烹饪时间
+      type: String
+    },
 		data: {
       type: Object
 		}
