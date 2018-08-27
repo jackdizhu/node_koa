@@ -37,6 +37,25 @@ const getDataDetails = async function (options, item) {
   }
   let $ = cheerio.load(body)
   let cp_body = $(".cp_body")
+  // 标签
+  let tags = []
+  let arr = cp_body.find('.yj_tags dt')
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].text()) {
+      tags.push(arr[i].text())
+    }
+  }
+  // 描述
+  let describe = cp_body.find('.materials>p').text()
+  // 难度
+  let difficulty = cp_body.find('#tongji_nd').text()
+  // 人数
+  let peopleNum = cp_body.find('#tongji_rsh').text()
+  // 准备时间
+  let peopleNum = cp_body.find('#tongji_zbsj').text()
+  // 烹饪时间
+  let peopleNum = cp_body.find('#tongji_prsj').text()
+
   // 主料
   let mainMaterial = []
   let arr = cp_body.find('.yl.zl .clearfix li')

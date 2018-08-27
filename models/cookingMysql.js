@@ -10,36 +10,36 @@ var User = DB.define('cooking', {
     field: 'id' // 指定存储在表中的键名称
   },
   __v: {
-    type: Sequelize.INTEGER, // 指定值的类型
-    field: '__v' // 指定存储在表中的键名称
+    type: Sequelize.INTEGER,
+    field: '__v'
   },
   praise: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'praise' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'praise'
   },
   evaluate: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'evaluate' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'evaluate'
   },
   img: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'img' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'img'
   },
   typeName: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'typeName' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'typeName'
   },
   type: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'type' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'type'
   },
   name: {
-    type: Sequelize.STRING, // 指定值的类型
-    field: 'name' // 指定存储在表中的键名称
+    type: Sequelize.STRING,
+    field: 'name'
   },
   data: {
-    type: Sequelize.TEXT, // 指定值的类型
-    field: 'data' // 指定存储在表中的键名称
+    type: Sequelize.TEXT,
+    field: 'data'
   },
 },
 {
