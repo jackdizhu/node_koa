@@ -116,6 +116,23 @@ const getDataDetails = async function (options, item) {
   return item
 }
 
+const getDataDetails2 = async function (options, item) {
+  const body = await request(options)
+  if (!body) {
+    return {}
+  }
+  let $ = cheerio.load(body)
+  let divEl = $('.main-content .lemma-summary .para')
+  if (divEl.length) {
+    let desc = $(divEl[0]).text().replace(/\[[0-9]+\]/, '')
+    item.describe = desc
+    await cookingModel.update(item)
+  }
+
+  console.log(item.name, 111)
+  return item
+}
+
 const details = async function (ctx, next) {
   let options = {
     method: 'GET',
@@ -125,34 +142,35 @@ const details = async function (ctx, next) {
       "Accept-Language":"zh-CN,zh;q=0.8",
       "Cache-Control":"max-age=0",
       "Connection":"keep-alive",
-      "Host":"www.meishij.net",
-      "Referer":"https://www.meishij.net/list.php?sortby=renqi&lm=41",
+      "Host":"baike.baidu.com",
+      "Referer":"https://baike.baidu.com",
       "Upgrade-Insecure-Requests": 1,
-      "User-Agent": userAgents[parseInt(Math.random() * userAgents.length)]
+      "User-Agent": userAgents[parseInt(Math.random() * userAgents.length)],
+      "Cookie": 'BIDUPSID=02D04BA73A366C706538BD7F1DAE1E48; PSTM=1534814291; BAIDUID=B376CFFF43F83D2F7DD886ADF10B6313:FG=1; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; PSINO=6; H_PS_PSSID=1461_21088_26350_26925_20930; pgv_pvi=3591413760; pgv_si=s6803510272; Hm_lvt_55b574651fcae74b0a9f1cf9c8d7c93a=1535361709,1535361752; Hm_lpvt_55b574651fcae74b0a9f1cf9c8d7c93a=1535362347'
     }
   }
   // 获取描述数据
-  let query = {'describe': undefined}
+  let query = {'describe': ''}
   // 部分获取数据异常 单独处理
   // let query = {$where: "this.difficulty=='' || this.cookingTime==''"}
 
   let arr = await cookingModel.find(query)
   let count = await cookingModel.find(query).count()
-  console.log(arr[0], count)
-
+  console.log(count, 111)
 
   if (!arr || !arr.length) {
     console.log(query, '查询无结果')
     return 0
   }
-  for (let i = 1; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     let item = arr[i]
     let url = item.target
-    options.uri = url
+    encodeURI(item.name)
+    options.uri = 'https://baike.baidu.com/item/' + encodeURI(item.name)
 
     await sleep(100)
     // await cookingModel.update(item)
-    await getDataDetails(options, item)
+    await getDataDetails2(options, item)
   }
 }
 
