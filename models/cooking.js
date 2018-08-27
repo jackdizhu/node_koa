@@ -37,7 +37,7 @@ exports.update = function (cooking) {
       // type: cooking.type,
       // typeName: cooking.typeName,
       // img: cooking.img,
-      // target: cooking.target,
+      target: cooking.target,
       praise: cooking.praise,
       evaluate: cooking.evaluate,
       data: cooking.data
@@ -61,3 +61,7 @@ exports.find = function (query, opt) {
 exports.findOne = function (query, opt) {
   return CookingModel.findOne(query, {}, opt)
 }
+
+// exports.remove = function (query, opt) {
+//   return CookingModel.remove(query, {}, opt)
+// }

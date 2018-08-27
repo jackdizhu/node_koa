@@ -131,21 +131,27 @@ const details = async function (ctx, next) {
       "User-Agent": userAgents[parseInt(Math.random() * userAgents.length)]
     }
   }
+  // 获取描述数据
   let query = {'describe': undefined}
+  // 部分获取数据异常 单独处理
+  // let query = {$where: "this.difficulty=='' || this.cookingTime==''"}
 
-  let arr = await cookingModel.find(query).limit(20000)
-  // let arr = await cookingModel.find().count()
-  // console.log(arr, 123)
+  let arr = await cookingModel.find(query)
+  let count = await cookingModel.find(query).count()
+  console.log(arr[0], count)
+
 
   if (!arr || !arr.length) {
     console.log(query, '查询无结果')
     return 0
   }
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 1; i < arr.length; i++) {
     let item = arr[i]
     let url = item.target
     options.uri = url
+
     await sleep(100)
+    // await cookingModel.update(item)
     await getDataDetails(options, item)
   }
 }
