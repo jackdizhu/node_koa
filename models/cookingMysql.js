@@ -71,7 +71,7 @@ exports.insert = function ({_id, __v, praise, evaluate, img, typeName, type, nam
   }
   // 向 user 表中插入数据
   return User.create({
-    "id" : _id,
+    "id" : _id.toString(),
     "__v" : __v,
     "praise" : praise,
     "evaluate" : evaluate,
