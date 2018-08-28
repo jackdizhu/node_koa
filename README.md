@@ -32,6 +32,33 @@ koa2 -e
 * 数据表关联
 
 ``` js
+
+// 一对一(One-To-One)关联
+// BelongsTo关联表示一对一关系的外键存在于源模型
+let Team  = this.sequelize.define('team', {/* attributes */});
+let Player = this.sequelize.define('player', {/* attributes */})
+// 添加一个 teamId 属性到 Player 模型
+Player.belongsTo(Team);
+
+// HasOne关联表示一对一关系的外键存在于目标模型
+var User = sequelize.define('user', {/* attributes */})
+var Project = sequelize.define('project', {/* attributes */})
+// 添加一个 projectId 属性到 User 模型
+Project.hasOne(User)
+
+// One-To-Many关联是指一个源模型连接多个目标模型
+var User = sequelize.define('user', {/* attributes */})
+var Project = sequelize.define('project', {/* attributes */})
+// 添加 projectId 属性到 User 模型
+Project.hasMany(User, {as: 'Workers'})
+
+// Belongs-To-Many 关联是指一个源模型连接多个目标模型
+var User = sequelize.define('user', {/* attributes */})
+var Project = sequelize.define('project', {/* attributes */})
+// 创建一个新模型 UserProject 其中会 projectId 和 userId 两个外键
+Project.belongsToMany(User, {through: 'UserProject'});
+User.belongsToMany(Project, {through: 'UserProject'});
+
 User.create({
   userName: userName,
   password: password
