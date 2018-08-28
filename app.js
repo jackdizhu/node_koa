@@ -18,6 +18,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const teacherClassroom = require('./routes/teacherClassroom')
 const api = require('./routes/api')
 
 // 自定义 日志打印
@@ -86,6 +87,7 @@ app.use(async (ctx, next) => {
 
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(teacherClassroom.routes(), teacherClassroom.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
 
 // error-handling

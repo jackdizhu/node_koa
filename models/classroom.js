@@ -6,10 +6,10 @@ var Sequelize = require('sequelize')
 let Classroom = require('./index').Classroom
 
 // 添加新用户
-exports.insert = function ({name}) {
+exports.insert = function ({ClassroomName}) {
   // 向 Classroom 表中插入数据
   return Classroom.create({
-    name: name
+    ClassroomName: ClassroomName
   })
 }
 

@@ -36,46 +36,40 @@ var User = DB.define('user', {
   // 如果指定的表名称本就是复数形式则不变
   freezeTableName: true
 })
+
 // 创建 model
 var Classroom = DB.define('classroom', {
-  name: {
+  ClassroomName: {
     type: Sequelize.STRING
   }
-},
-{
-  freezeTableName: true
 })
 var Teacher = DB.define('teacher', {
-  name: {
+  TeacherName: {
     type: Sequelize.STRING
   }
-},
-{
-  freezeTableName: true
 })
 // 创建 model
 var TeacherClassroom = DB.define('TeacherClassroom', {
   state: {
     type: Sequelize.STRING
   }
-},
-{
-  freezeTableName: true
 })
 
 // 建立表 关联 ( 会生成外键约束 导致新增数据报错 )
 // 指定 User 和 UserChildren 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
 // User.belongsTo(UserChildren.User, {foreignKey: 'userChildrenId', targetKey: 'id'})
 // 指定 User 和 UserChildren 的关系为 1 : n 的关系 User.id === UserChildren.userId
-// User.hasMany(UserChildren, {foreignKey: 'id', targetKey: 'userId'})
+User.hasMany(UserChildren, {foreignKey: 'id', targetKey: 'userId'})
 
-Classroom.belongsToMany(Teacher, {through: TeacherClassroom})
-// Teacher.belongsToMany(Classroom, {through: TeacherClassroom})
+Classroom.belongsToMany(Teacher, {through: 'TeacherClassroom'})
+Teacher.belongsToMany(Classroom, {through: 'TeacherClassroom'})
 
 // 创建表
-// User.sync() 会创建表并且返回一个Promise对象
 // 如果 force = true 则会把存在的表（如果users表已存在）先销毁再创建表
 // 默认情况下 forse = false
+// DB.sync({
+//   force: false
+// })
 ;(async function () {
   await User.sync({
     force: false
@@ -98,3 +92,4 @@ exports.User = User
 exports.UserChildren = UserChildren
 exports.Classroom = Classroom
 exports.Teacher = Teacher
+// exports.TeacherClassroom = TeacherClassroom

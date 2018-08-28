@@ -3,13 +3,13 @@ module.exports = {
   'db': {
     database: 'nodemysql',
     username: 'root',
-    password: '',
+    password: 'mMm666666',
     host: '127.0.0.1',
     dialect: 'mysql',
     pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
+      max: 1000,
+      min: 5,
+      idle: 1000000
     }
   },
   'jwt': {

@@ -1,9 +1,6 @@
 const router = require('koa-router')()
 const userModel = require('../models/user')
 const userChildrenModel = require('../models/userChildren')
-const teacherModel = require('../models/teacher')
-const classroomModel = require('../models/classroom')
-// const userChildrenModel = require('../models/userChildren')
 
 router.prefix('/users')
 
@@ -40,18 +37,6 @@ router.get('/add', async (ctx, next) => {
     title: 'koa2 json',
     user: user,
     userChildren: userChildren
-  }
-})
-// 添加记录
-router.get('/add2', async (ctx, next) => {
-  let teacher = await teacherModel.insert({name: 'test'})
-  let classroom = await classroomModel.insert({name: 'test'})
-  // teacher.setTeacherClassroom(classroom)
-  // classroom.setTeacherClassroom(teacher)
-  console.log(teacher)
-
-  ctx.body = {
-    title: 'koa2 json'
   }
 })
 // 查找记录
