@@ -27,16 +27,18 @@ router.get('/add', async (ctx, next) => {
     password: 'password'
   }
   let user = await userModel.insert(obj)
-
   obj.userId = user.id
   obj.userName += '1'
   obj.password += '1'
   let userChildren = await userChildrenModel.insert(obj)
+  let data = false
+  if (user && userChildren) {
+    data = true
+  }
 
   ctx.body = {
     title: 'koa2 json',
-    user: user,
-    userChildren: userChildren
+    data: data
   }
 })
 // 查找记录

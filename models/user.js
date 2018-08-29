@@ -25,6 +25,7 @@ exports.findOne = function (where) {
 // 通过用户名查找用户
 exports.findOneInclude = function (where) {
   return User.findOne({
+    attributes: ['id', 'userName'],
     include: [{
       model: UserChildren,
       'where': where
@@ -57,11 +58,13 @@ exports.findInclude = function (where, whereChildren, limit, page) {
   limit = limit || 10
   page = page || 1
   return User.findAll({
+    attributes: ['id', 'userName'],
     'where': where,
     limit: limit,
     offset: limit * (page - 1),
     include: [
       {
+        attributes: ['id', 'userId', 'userName'],
         model: UserChildren,
         'where': whereChildren
       }
