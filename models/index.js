@@ -45,6 +45,9 @@ var Classroom = DB.define('classroom', {
   teacher: {
     type: Sequelize.STRING
   }
+},
+{
+  freezeTableName: true
 })
 var Teacher = DB.define('teacher', {
   TeacherName: {
@@ -53,12 +56,15 @@ var Teacher = DB.define('teacher', {
   classroom: {
     type: Sequelize.STRING
   }
+},
+{
+  freezeTableName: true
 })
 // 创建 model
 var TeacherClassroom = DB.define('TeacherClassroom', {
-  state: {
-    type: Sequelize.STRING
-  }
+},
+{
+  freezeTableName: true
 })
 
 // 建立表 关联 ( 会生成外键约束 导致新增数据报错 )
