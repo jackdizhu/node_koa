@@ -46,26 +46,22 @@ router.get('/add', async (ctx, next) => {
   }
 })
 router.get('/find', async (ctx, next) => {
-  let teacher = await teacherModel.find({
+  let teacher = await teacherModel.findOne({
     TeacherName: 'test'
   })
-  let classroom = await classroomModel.find({
+  let classroom = await classroomModel.findOne({
     ClassroomName: 'test'
   })
-  let res = null
-  let resC  = null
-  let res2 = null
+  let resC = null
   let res2C = null
-  if (teacher[0] && classroom[0]) {
-    res = await teacher[0].getClassrooms({attributes: ['id', 'ClassroomName']})
-    resC = await teacher[0].countClassrooms()
-    teacher[0].classroom = res
-    res2 = await classroom[0].getTeachers({attributes: ['id', 'TeacherName']})
-    res2C = await classroom[0].countTeachers()
-    classroom[0].teacher = res2
+  if (teacher) {
+    resC = await teacher.countClassrooms()
+    teacher = await teacher.getClassrooms({attributes: ['id', 'ClassroomName']})
   }
-  // teacher.getClassroom()
-  // classroom.getTeacher()
+  if (classroom) {
+    res2C = await classroom.countTeachers()
+    classroom = await classroom.getTeachers({attributes: ['id', 'TeacherName']})
+  }
 
   ctx.body = {
     title: 'koa2 json',

@@ -14,7 +14,7 @@ exports.insert = function ({ClassroomName}) {
 }
 
 // 通过用户名查找用户
-exports.findOne = function (where) {
+exports.findOne = async function (where) {
   return Classroom.findOne({
     attributes: ['id', 'ClassroomName', 'teacher'],
     where: where
