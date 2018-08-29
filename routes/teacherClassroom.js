@@ -30,6 +30,7 @@ router.get('/add', async (ctx, next) => {
   let classroom = await classroomModel.insert({
     ClassroomName: 'test'
   })
+
   let res = await teacher.addClassroom(classroom)
   // classroom.addTeacher(teacher)
 
@@ -51,8 +52,14 @@ router.get('/find', async (ctx, next) => {
   let classroom = await classroomModel.find({
     ClassroomName: 'test'
   })
-  let res = await teacher[0].getClassrooms()
-  let res2 = await classroom[0].getTeachers()
+  let res = null
+  let res2 = null
+  if (teacher[0] && classroom[0]) {
+    res = await teacher[0].getClassrooms({attributes: ['id', 'ClassroomName']})
+    teacher[0].classroom = res
+    res2 = await classroom[0].getTeachers({attributes: ['id', 'TeacherName']})
+    classroom[0].teacher = res2
+  }
   // teacher.getClassroom()
   // classroom.getTeacher()
 
@@ -60,12 +67,9 @@ router.get('/find', async (ctx, next) => {
     title: 'koa2 json',
     data: {
       teacher: teacher,
-      classroom: classroom,
-      res: res,
-      res2: res2
+      classroom: classroom
     }
   }
 })
-
 
 module.exports = router

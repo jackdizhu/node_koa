@@ -16,6 +16,7 @@ exports.insert = function ({TeacherName}) {
 // 通过用户名查找用户
 exports.findOne = function (where) {
   return Teacher.findOne({
+    attributes: ['id', 'TeacherName', 'classroom'],
     where: where
   })
 }
@@ -35,6 +36,7 @@ exports.find = function (where, limit, page) {
   limit = limit || 10
   page = page || 1
   return Teacher.findAll({
+    attributes: ['id', 'TeacherName', 'classroom'],
     where: where,
     limit: limit,
     offset: limit * (page - 1)

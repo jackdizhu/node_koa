@@ -41,10 +41,16 @@ var User = DB.define('user', {
 var Classroom = DB.define('classroom', {
   ClassroomName: {
     type: Sequelize.STRING
+  },
+  teacher: {
+    type: Sequelize.STRING
   }
 })
 var Teacher = DB.define('teacher', {
   TeacherName: {
+    type: Sequelize.STRING
+  },
+  classroom: {
     type: Sequelize.STRING
   }
 })
