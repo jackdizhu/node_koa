@@ -54,11 +54,11 @@ router.get('/find', async (ctx, next) => {
   let res2C = null
   if (teacher) {
     resC = await teacher.countClassrooms()
-    teacher = await teacher.getClassrooms({attributes: ['id', 'ClassroomName']})
+    teacher.classroom = await teacher.getClassrooms({attributes: ['id', 'ClassroomName']})
   }
   if (classroom) {
     res2C = await classroom.countTeachers()
-    classroom = await classroom.getTeachers({attributes: ['id', 'TeacherName']})
+    classroom.teacher = await classroom.getTeachers({attributes: ['id', 'TeacherName']})
   }
 
   ctx.body = {
