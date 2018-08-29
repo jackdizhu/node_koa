@@ -33,16 +33,14 @@ router.get('/add', async (ctx, next) => {
 
   let res = await teacher.addClassroom(classroom)
   // classroom.addTeacher(teacher)
-
-  console.log(teacher)
+  let data = false
+  if (teacher && classroom && res) {
+    data = true
+  }
 
   ctx.body = {
     title: 'koa2 json',
-    data: {
-      teacher: teacher,
-      classroom: classroom,
-      teacherClassroom: res
-    }
+    data: data
   }
 })
 router.get('/find', async (ctx, next) => {
