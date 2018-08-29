@@ -55,9 +55,39 @@ Project.hasMany(User, {as: 'Workers'})
 // Belongs-To-Many 关联是指一个源模型连接多个目标模型
 var User = sequelize.define('user', {/* attributes */})
 var Project = sequelize.define('project', {/* attributes */})
-// 创建一个新模型 UserProject 其中会 projectId 和 userId 两个外键
+// 互相设置关联 UserProject 其中会 projectId 和 userId 两个外键
 Project.belongsToMany(User, {through: 'UserProject'});
 User.belongsToMany(Project, {through: 'UserProject'});
+// 多对多 调用查询
+// 添加
+let teacher = await teacherModel.insert({
+  TeacherName: 'test'
+})
+let classroom = await classroomModel.insert({
+  ClassroomName: 'test'
+})
+let res = await teacher.addClassroom(classroom)
+// 查找
+let teacher = await teacherModel.find({
+  TeacherName: 'test'
+})
+let classroom = await classroomModel.find({
+  ClassroomName: 'test'
+})
+let res = null
+let res2 = null
+if (teacher[0] && classroom[0]) {
+  res = await teacher[0].getClassrooms({attributes: ['id', 'ClassroomName']})
+  teacher[0].classroom = res
+  res2 = await classroom[0].getTeachers({attributes: ['id', 'TeacherName']})
+  classroom[0].teacher = res2
+}
+// count 统计
+resC = await teacher[0].countClassrooms()
+res2C = await classroom[0].countTeachers()
+// remove 删除
+resR = await teacher[0].removeClassrooms(classroom[0])
+
 
 User.create({
   userName: userName,

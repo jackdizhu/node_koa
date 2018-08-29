@@ -53,11 +53,15 @@ router.get('/find', async (ctx, next) => {
     ClassroomName: 'test'
   })
   let res = null
+  let resC  = null
   let res2 = null
+  let res2C = null
   if (teacher[0] && classroom[0]) {
     res = await teacher[0].getClassrooms({attributes: ['id', 'ClassroomName']})
+    resC = await teacher[0].countClassrooms()
     teacher[0].classroom = res
     res2 = await classroom[0].getTeachers({attributes: ['id', 'TeacherName']})
+    res2C = await classroom[0].countTeachers()
     classroom[0].teacher = res2
   }
   // teacher.getClassroom()
@@ -67,7 +71,35 @@ router.get('/find', async (ctx, next) => {
     title: 'koa2 json',
     data: {
       teacher: teacher,
-      classroom: classroom
+      teacherC: resC,
+      classroom: classroom,
+      classroomC: res2C
+    }
+  }
+})
+router.get('/remove', async (ctx, next) => {
+  let teacher = await teacherModel.find({
+    TeacherName: 'test'
+  })
+  let classroom = await classroomModel.find({
+    ClassroomName: 'test'
+  })
+  let resR = null
+  let res2R = null
+  if (teacher[0] && classroom[0]) {
+    resR = await teacher[0].removeClassrooms(classroom[0])
+    // res2R = await classroom[0].removeTeachers()
+  }
+  // teacher.getClassroom()
+  // classroom.getTeacher()
+
+  ctx.body = {
+    title: 'koa2 json',
+    data: {
+      teacher: teacher,
+      teacherR: resR,
+      classroom: classroom,
+      classroomR: res2R
     }
   }
 })
