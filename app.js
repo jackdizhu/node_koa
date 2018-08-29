@@ -28,20 +28,55 @@ global.log = log()
 onerror(app)
 
 // token 验证 js req header authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlci5uYW1lIiwiaWF0IjoxNTE2Nzg3MDU0LCJleHAiOjE1MTY3OTA2NTR9.gEIBKKqhEQ_slW0BmSK-3pnaXxYFaOSOJonLb3Xc6n0"
-app.use(koaJwt({secret}).unless({
+app.use(koaJwt(
+  {
+    secret: secret,
+    key: 'decryptToken',
+    tokenKey: 'token',
+    getToken: (ctx) => {
+      let _token = (ctx.header.authorization || ctx.query.token || (ctx.request.body && ctx.request.body.token) || ctx.cookies.get('token') || '')
+      // log(_token)
+      // 删除 Bearer  部分' eyJhbGciOiJIUzI1NiIsInR
+      return _token
+    }
+  }
+).unless({
   // 数组中的路径不需要通过jwt验证
+  // /^\/file_v[0-9]\/[a-zA-Z]+/,
+  method: ['OPTIONS'],
   path: [
-    /^\/api\/[a-zA-Z_]+/,
-    /^\/users\/[a-zA-Z_]+/
+    /^\/api\/[a-zA-Z_/]+/,
+    /^\/users\/[a-zA-Z_/]+/
   ]
 }))
+
 // middlewares
 app.use(bodyparser({
   enableTypes: ['json', 'form', 'text', 'multipart']
 }))
 app.use(json())
+
 // api 服务器 允许跨域
-app.use(cors())
+app.use(cors({
+  // Access-Control-Allow-Origin
+  origin: function(ctx) {
+    // if (ctx.url === '/test') {
+    //   return false;
+    // }
+    return '*'
+  },
+  // Access-Control-Expose-Headers 哪些Headers可以作为响应的一部分暴露出去
+  // exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+  // Access-Control-Max-Age 有效期秒数 60 * 60 * 24
+  maxAge: 60,
+  // Access-Control-Allow-Credentials 客户端携带证书访问
+  // credentials: true,
+  // Access-Control-Allow-Methods
+  allowMethods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+  // Access-Control-Allow-Headers
+  allowHeaders: ['Content-Type', 'Authorization'],
+}))
+
 app.use(logger())
 app.use(require('koa-static')(path.resolve(__dirname, '/public')))
 
