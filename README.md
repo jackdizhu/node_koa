@@ -138,6 +138,14 @@ exports.count = async function (where) {
 // 因为 Sequelize 做了很多神奇的事，所以你必须在设置关联后调用 Sequelize.sync
 // 指定 User 和 UserChildren 的关系为 1：1 的关系 User.userChildrenId === UserChildren.id
 // user
+/* 字段定义
+  id: {
+    primaryKey: true, // id 必须是主键
+    type: Sequelize.INTEGER,
+    autoIncrement: true, // 设置 id 自增
+    field: 'id'
+  }
+*/
 var User = DB.define('user', {
   userChildrenId: {
     type: Sequelize.STRING
