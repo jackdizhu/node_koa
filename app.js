@@ -11,6 +11,7 @@ const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser') // form-data 不支持  x-www-form-urlencoded 改为
+const koaBody = require('koa-body')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
@@ -27,6 +28,13 @@ onerror(app)
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text', 'multipart']
+}))
+// 文件上传配置
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+    maxFileSize: 200*1024*1024
+  }
 }))
 app.use(json())
 app.use(cors()) // api 服务器 允许跨域
@@ -57,13 +65,13 @@ app.use(async (ctx, next) => {
         obj: {
           code: '0',
           msg: 'ok'
-        }    
+        }
       }
     }
     // let {...obj} = ctx.body
     // ctx.body = {}
     // ctx.body.obj = obj
-    
+
     if (ctx.body) {
       ctx.body.path = ctx.path
       ctx.body.query = ctx.query
